@@ -1,7 +1,7 @@
 var pusher;
 var channel;
 
-var binded = false;
+var binded = null;
 
 function connectPusher() {
      
