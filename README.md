@@ -212,3 +212,4 @@ the broadcastAs() function name relates to
 1. Code organization, cleanup, & optimization
 2. Email & SMS notifications if an administrator is not currently monitoring the live chat or enable/disable live-chat functionality from backend
 3. CSS styling updates
+4. Audible new message alert for admins
