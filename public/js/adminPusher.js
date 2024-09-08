@@ -7,7 +7,7 @@ var rooms_binded_to_listen = []
 // -- /js/pusher.js
 connectPusher()
 
-subscribeToAdminRooms()
+subscribeToAdminRooms() //join the administration web socket which will listen for new chats
 
 bindToLiveChats()
 
@@ -32,6 +32,7 @@ function subscribeToAdminRooms() {
     admin_channel.bind('new-room', function(data) {
         console.log(`new room ${data.room_id}: ${data.message}`)
 
+        // Fetch the HTML for the new live chat room
         fetch('/admin/room/new', {
             method: 'POST',
             headers: {
@@ -55,9 +56,12 @@ function subscribeToAdminRooms() {
 
             rooms_container.scrollTo(0, rooms_container.scrollHeight)
 
+            // Bind admin to the new live chat room immediately
+            bindLiveChatAdmin(data.room_id)
         })
 
-        if(!document.getElementById(`select-${data.room_id}-chat-btn`)) {
+        // Add the room selection button for the new chat room
+        if (!document.getElementById(`select-${data.room_id}-chat-btn`)) {
             fetch('/admin/room/new/select', {
                 method: 'POST',
                 headers: {
@@ -72,18 +76,21 @@ function subscribeToAdminRooms() {
             }).then((html) => {
                 const parser = new DOMParser()
                 const doc = parser.parseFromString(html, 'text/html')
-                const newLiveChat = doc.body.firstChild
+                const newSelectBtn = doc.body.firstChild
     
                 const room_select_container = document.getElementById(`room-select-container`)
     
-                room_select_container.appendChild(newLiveChat)
+                room_select_container.appendChild(newSelectBtn)
     
                 room_select_container.scrollTo(0, room_select_container.scrollHeight)
-    
+
+                // Set unread alert if not in the current room
+                if (data.room_id != current_room_bind) {
+                    console.log(`Setting Unread Alert ${data.room_id}`)
+                    document.getElementById(`unread-${data.room_id}`).style.width = '10px'
+                }
             })
         }
-        
-        bindLiveChatAdmin(data.room_id)
     })
 }
 
@@ -116,7 +123,7 @@ function setActiveBtn(btn) {
 function showMessagesContainer(room_id) {
     hideAllMessagesContainers()
 
-    document.getElementById(`messages-container-${room_id}`).classList.toggle('d-none')
+    document.getElementById(`room-container-${room_id}`).classList.toggle('d-none')
 }
 
 function hideAllMessagesContainers() {
@@ -160,7 +167,7 @@ function bindToLiveChats() {
                     const doc = parser.parseFromString(html, 'text/html')
                     const newMessage = doc.body.firstChild
 
-                    const messages_container = document.getElementById(`messages-container-${data.room_id}`)
+                    const messages_container = document.getElementById(`room-container-${data.room_id}`)
         
                     messages_container.appendChild(newMessage)
 
@@ -179,13 +186,12 @@ function bindToLiveChats() {
 }
 
 function bindLiveChatAdmin(room_id) {
-
-    if(rooms_binded_to_listen.indexOf(room_id) == -1) {
+    if (rooms_binded_to_listen.indexOf(room_id) == -1) {
         rooms_binded_to_listen.push(room_id)
 
         channel.bind(`live-chat-${room_id}`, function(data) {
-            console.log(`New Room Binded Live chat message: ${data.message}`)
-    
+            console.log(`Live chat message: ${data.message}`)
+
             fetch('/admin/receive', {
                 method: 'POST',
                 headers: {
@@ -202,26 +208,22 @@ function bindLiveChatAdmin(room_id) {
                 const parser = new DOMParser()
                 const doc = parser.parseFromString(html, 'text/html')
                 const newMessage = doc.body.firstChild
-    
-                const messages_container = document.getElementById(`messages-container-${data.room_id}`)
-    
-                messages_container.appendChild(newMessage)
-    
-                messages_container.scrollTo(0, messages_container.scrollHeight)
-    
-                if(rooms_binded_to_listen.length == 1) {
-                    setInitialRoom()
-                }
 
-                if(data.room_id != current_room_bind) {
-                    console.log(`Setting Unread Alert ${data.room_id}: ${newMessage}`)
+                const messages_container = document.getElementById(`room-container-${data.room_id}`)
+
+                messages_container.appendChild(newMessage)
+
+                messages_container.scrollTo(0, messages_container.scrollHeight)
+
+                if (data.room_id != current_room_bind) {
+                    console.log(`Setting Unread Alert ${data.room_id}`)
                     document.getElementById(`unread-${data.room_id}`).style.width = '10px'
                 }
             })
         })
-    }
 
-    setNotification(`${rooms_binded_to_listen.length} rooms active`, rooms_binded_to_listen.length)
+        setNotification(`${rooms_binded_to_listen.length} rooms active`, rooms_binded_to_listen.length)
+    }
 }
 
 //swap live chat room target for sending messages
@@ -263,7 +265,7 @@ function sendLiveChatMessageAdmin(e, form) {
         const doc = parser.parseFromString(html, 'text/html')
         const newMessage = doc.body.firstChild
 
-        const messages_container = document.getElementById(`messages-container-${current_room_bind}`)
+        const messages_container = document.getElementById(`room-container-${current_room_bind}`)
 
         messages_container.appendChild(newMessage)
 

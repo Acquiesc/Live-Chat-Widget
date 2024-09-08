@@ -4,7 +4,7 @@
 <div class="container-fluid bg-secondary">
     <div class="row">
         <div class="col text-center">
-            <h1 class="fw-bold display-1 text-white">hello?</h1>
+            <h1 class="fw-bold display-1 text-white">Live Chat Widget</h1>
         </div>
     </div>
 </div>

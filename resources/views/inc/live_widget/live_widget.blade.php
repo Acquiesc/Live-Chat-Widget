@@ -1,6 +1,6 @@
-<button class="d-flex text-white" id="live-widget-toggle-btn" onclick="toggleLiveChat()">
-    <i class="bi bi-chat fs-1"></i>
-    <p class="d-none d-md-block mb-2 mt-auto ms-2">Need help?  Join live chat</p>
+<button class="d-flex align-items-center text-white py-2" id="live-widget-toggle-btn" onclick="toggleLiveChat()">
+    <i class="bi bi-chat fs-5"></i>
+    <p class="d-none d-md-block my-auto ms-2">Need help?  Join live chat</p>
 </button>
 
 <div class="" id="live-chat">

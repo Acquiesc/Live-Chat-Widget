@@ -63,7 +63,7 @@
             if(json.success) {
                 document.getElementById(`room-select-container-${room_id}`).remove()
 
-                document.getElementById(`messages-container-${room_id}`).remove()
+                document.getElementById(`room-container-${room_id}`).remove()
 
                 setInitialRoom()
             } else {

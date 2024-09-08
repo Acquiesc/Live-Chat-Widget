@@ -22,7 +22,7 @@ class LiveChatController extends Controller
             $room = ChatRoom::find(intval($request->get('binded')));
             if($room->completed == true) {
                 $room->completed = false;
-                $new_room = true;
+                $new_room = false;
             }
         }
         $room->save();
@@ -37,9 +37,10 @@ class LiveChatController extends Controller
 
         if($new_room) {
             broadcast(new \App\Events\NewLiveChat($request->get('message'), $room->id))->toOthers();
+        } else {
+            broadcast(new \App\Events\Message($request->get('message'), $room->id))->toOthers();
         }
 
-        broadcast(new \App\Events\Message($request->get('message'), $room->id))->toOthers();
 
         return view('inc.live_widget.send')->with(['message' => $request->get('message'),
                                                     'user' => $request->get('user'), 

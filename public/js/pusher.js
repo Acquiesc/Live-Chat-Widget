@@ -38,7 +38,7 @@ function sendLiveChatMessage(e, form) {
     }).then((html) => {
         const parser = new DOMParser()
         const doc = parser.parseFromString(html, 'text/html')
-        const newMessage = doc.body.firstChild
+        const newMessage = doc.body
 
         const messages_container = document.getElementById('messages-container')
 
