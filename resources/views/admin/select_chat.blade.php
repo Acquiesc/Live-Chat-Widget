@@ -20,9 +20,7 @@
         <div class="col" style="min-width: 75%;">
             <div class="row" id="rooms-container">
                 @foreach($rooms as $room)
-                @if(!$room->completed)
                     @include('admin.chat.chat_room', ['room' => $room])
-                @endif
                 @endforeach
             </div>
         </div>

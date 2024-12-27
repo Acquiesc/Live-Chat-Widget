@@ -1,3 +1,4 @@
+/*User Toggle Button*/
 #live-widget-toggle-btn {
     position: fixed;
     right: 25px;
@@ -7,6 +8,7 @@
     padding: 0 1rem .5rem 1rem;
 }
 
+/*Hidden - User Messages + Input Container*/
 #live-chat {
     position: fixed;
     right: 25px;
@@ -22,6 +24,7 @@
     transition: all .3s ease;
 }
 
+/*Display Hidden Container Above*/
 .live-chat-active {
     height: clamp(350px, 50vh, 550px) !important;
     width: clamp(350px, 50vw, 550px) !important;
@@ -29,6 +32,7 @@
     overflow: auto !important;
 }
 
+/*Wrapper that holds messages*/
 #messages-container {
     border: 1px solid lightgray;
     border-radius: 10px;
