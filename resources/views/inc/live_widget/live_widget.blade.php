@@ -3,7 +3,7 @@
     <p class="d-none d-md-block my-auto ms-2">Need help?  Join live chat</p>
 </button>
 
-<div class="" id="live-chat">
+<div class="" style="background-color: #ffffff;" id="live-chat">
     <div class="container h-100 w-100 d-flex flex-column justify-content-between">
         <div class="row">
             <div class="col text-center">

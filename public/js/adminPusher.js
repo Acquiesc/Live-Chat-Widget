@@ -13,6 +13,7 @@ bindToLiveChats()
 
 setInitialRoom()
 
+//open the first valid chat room
 function setInitialRoom() {
 
     const first_select_room_btn = document.querySelector('.select-room-btn')

@@ -10,7 +10,7 @@ use App\Models\ChatRoom;
 class AdminLiveChatController extends Controller
 {
     public function index() {
-        $rooms = ChatRoom::where('is_completed', 0)->orderBy('created_at', 'desc')->get();
+        $rooms = ChatRoom::where('completed', 0)->orderBy('created_at', 'desc')->get();
 
         return view('admin.select_chat')->with('rooms', $rooms);
     }
